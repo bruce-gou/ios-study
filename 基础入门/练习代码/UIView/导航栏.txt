@@ -1,0 +1,53 @@
+import UIKit
+
+class RootViewController: UIViewController {
+    var label: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // 创建视图
+        let screen = UIScreen.main.bounds
+        // 设置 根视图背景色
+        self.view.backgroundColor = UIColor.white
+        
+    //创建 NavigationBar
+        let navigationBarHeight:CGFloat = 44 // 默认高度 44
+        let navigationBar = UINavigationBar(frame: CGRect(x:0, y: 20, width: screen.size.width, height: navigationBarHeight))
+        
+        //添加左右按钮
+        let saveButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save(_:)))
+        let addButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add(_:)))
+        
+        //设置导航栏标题
+        let navigationItem = UINavigationItem(title: "导航标题")
+        // 给导航栏左右赋值按钮
+        navigationItem.leftBarButtonItem = saveButtonItem
+        navigationItem.rightBarButtonItem = addButtonItem
+        // 用于将多个导航栏项目放置在数组中,并赋值导航栏对象属性items
+        navigationBar.items = [navigationItem]
+        self.view.addSubview(navigationBar)
+    
+        
+        // 添加标签
+        let labelwidth:CGFloat = 84
+        let labelheight:CGFloat = 21
+        let labelTopView:CGFloat = 198
+        
+        self.label = UILabel(frame: CGRect(x:(screen.size.width - labelwidth)/2, y: labelTopView, width: labelwidth, height: labelheight))
+        
+        self.label.text = "Label"
+        // 字体左右居中
+        self.label.textAlignment = .center
+        self.view.addSubview(self.label)
+        
+    }
+    
+    @objc func save(_ sender: AnyObject){
+        self.label.text = "点击save"
+    }
+    
+    @objc func add(_ sender: AnyObject){
+        self.label.text = "点击add"
+    }
+  
+}

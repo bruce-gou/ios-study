@@ -1,0 +1,45 @@
+import UIKit
+
+class RootViewController: UIViewController {
+    var label: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // 创建视图
+        let screen = UIScreen.main.bounds
+        // 设置 根视图背景色
+        self.view.backgroundColor = UIColor.white
+        
+        let toolbarHeight:CGFloat = 44 //44是默认高度
+// 添加工具栏
+        let toolbar = UIToolbar(frame: CGRect(x:0, y: screen.size.height - toolbarHeight,width: screen.size.width, height: toolbarHeight))
+        //save按钮
+        let saveButtonItem = UIBarButtonItem(barButtonSystemItem:.save, target: self, action: #selector(save(_:)))
+        //open 按钮
+        let openButtonItem = UIBarButtonItem(title: "open", style: UIBarButtonItemStyle.plain, target: self, action: #selector(open(_:)))
+        //可变空格
+        let fiexibleButtonItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolbar.items = [saveButtonItem, fiexibleButtonItem, openButtonItem]
+        self.view.addSubview(toolbar)
+        // 添加标签
+        let labelwidth:CGFloat = 84
+        let labelheight:CGFloat = 21
+        let labelTopView:CGFloat = 250
+        
+        self.label = UILabel(frame: CGRect(x:(screen.size.width - labelwidth)/2, y: labelTopView, width: labelwidth, height: labelheight))
+        
+        self.label.text = "Label"
+        // 字体左右居中
+        self.label.textAlignment = .center
+        self.view.addSubview(self.label)
+        
+    }
+    // 工具栏按钮
+    @objc func save(_ sender: AnyObject){
+        self.label.text = "点击save"
+    }
+    // 工具栏按钮
+    @objc func open(_ sender: AnyObject){
+        self.label.text = "点击open"
+    }
+}

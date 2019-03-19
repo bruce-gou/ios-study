@@ -1,0 +1,50 @@
+
+  1. ios 工程模版分为两类 ----- Application 和 Framework & Library
+	1. Application类型: 我们大部分的开发工作都是从使用 Application 类型模版创建ios 程序开始的，该类型共包含7个模版。
+		Single View Application : 可以构建简单的耽搁视图应用
+		Game: 可以构建基于ios 的游戏应用。
+		Master-Detail Application: 可以构建树形导航模式应用，生成的代码中包含了导航控制器和表视图控制器等。
+		Page-Based Application: 可以构建类似于电子书效果的应用，这是一种平铺导航。
+		Tabbed Application: 可以构建表情包 （Sticker Pack）应用。
+		iMessage Application: 可以构建聊天应用。
+
+	2. Framework & Library 类型
+		Cocoa Touch Framework: 可以让我们创建自己的ios 框架
+		Cocoa Touch Static Library: 可以让我们创建自己的静态库。出于代码安全和多个工程重用代码的考虑，我们可以将一些类或者函数编写成静态库。静态库不能独立运行，编译成功时会生成名为 lib**.a的文件，例如（libHello World.a）.
+		Metal Libary: 可以让我们创建自己的 Metal库。
+
+
+  
+  2. 应用剖析
+	在项目工程中 ，有2个类 AppDelegate 和 ViewController, 两个 界面布局文件 Main.storyboard 和 LaunchScreen.storyboard, 其中 Main.storyboard 文件时故事板文件，LaunchScreen.storyboard 是英语启动界面故事板文件， Assets.xcassets 文件夹是资源目录，可以用来管理图片， Info.plist 是工程属性文件。
+	
+	
+	
+
+	说明：在访问资源文件时，文件夹和组是有区别的。访问文件夹中的资源时，需要文件夹作为路径。如果icon.png 文件房租 image文 件夹下，则访问它的路径时 image/icon.png；如果 image 时组，则访问它的路径是 icon.png。
+
+
+
+	我们主要编码工作是在 AppDelegate 和 ViewController 这2个类中进行的。AppDelegate是应用程序委托对象，它继承了 UIResponder 类,并实现了 UIApplicationDelegate 委托协议。UIResponder 类可以使子类 AppDelegate 具有处理响应事件的能力，而 UIApplicationDelegate 委托协议使 AppDelegate 能够成为应用程序委托对象，这种对象能够响应应用程序的生命周期，相应地， AppDelegate 的子类也可以实现这两个功能。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+		
+	  
+	

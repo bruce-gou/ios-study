@@ -1,0 +1,67 @@
+import UIKit
+
+class RootViewController: UIViewController {
+    var label: UILabel!
+    var datePicker: UIDatePicker!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // 创建视图
+        let screen = UIScreen.main.bounds
+        // 设置 根视图背景色
+        self.view.backgroundColor = UIColor.white
+        
+        
+// 日期选择器
+        let datePickerwidth:CGFloat = 320
+        let datePickHeight:CGFloat = 167
+        
+        self.datePicker = UIDatePicker(frame: CGRect(x:0, y: 0,width: datePickerwidth, height: datePickHeight))
+        
+        // zh-Hans简体中文
+        self.datePicker.locale = Locale(identifier:  "zh-Hans")
+        // 设置日期时间模式
+        /*
+         日期时间模式 是在 UIDatePickerMode 枚举类型中定义的成员。
+         time date  dateAndTime  countdownTimer
+         */
+        self.datePicker.datePickerMode = .dateAndTime
+        self.view.addSubview(self.datePicker)
+        
+    
+    
+        // 添加标签
+        let labelwidth:CGFloat = 200
+        let labelheight:CGFloat = 21
+        let labelTopView:CGFloat = 281
+        
+        self.label = UILabel(frame: CGRect(x:(screen.size.width - labelwidth)/2, y: labelTopView, width: labelwidth, height: labelheight))
+        
+        self.label.text = "Label"
+        // 字体左右居中
+        self.label.textAlignment = .center
+        self.view.addSubview(self.label)
+        
+        
+        // button 按钮
+        let button = UIButton(type: .system)
+        button.setTitle("Button", for: UIControlState.normal)
+        
+        let buttonwidth:CGFloat = 46
+        let buttonheight:CGFloat = 30
+        let buttonTopView:CGFloat = 379
+        
+        button.frame = CGRect(x: (screen.size.width - buttonwidth)/2, y: buttonTopView, width: buttonwidth, height: buttonheight)
+        
+        //事件
+        button.addTarget(self, action: #selector(onclick(_:)), for: .touchUpInside)
+        self.view.addSubview(button)
+        
+    }
+    // 获取时间
+    @objc func onclick(_ sender: AnyObject) {
+        let theDate = self.datePicker.date
+        let dateFormater = DateFormatter.init()
+        dateFormater.dateFormat = "YYYY-MM-DD HH:mm"
+        self.label.text = dateFormater.string(from: theDate)
+    }
+}

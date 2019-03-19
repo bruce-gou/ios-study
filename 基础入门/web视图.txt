@@ -1,0 +1,17 @@
+	web 技术可以应用于ios 开发，苹果公司允许发布本地+Web 的混合应用，很多情况下，使用web技术构建界面很有优势，例如：提供丰富的界面布局、显示多行不同风格的文本、显示图片、播放音频和视频等。web视图能够完成显示HTML、解析CSS和执行JavaScript等操作。
+	WKWebView 是苹果在 iOS8 中发布的新Web视图，旨在替换iOS中的UIWebView 和 macOS中的 WebView。WKWebView 很好的解决了 UIWebView 的内存占用大和价值速度慢等问题。
+	WKWebView可以加载本地HTML或者网络资源
+	本地资源的加载一般采用同步方法，数据可以来源于本地文件或者是硬编码的HTML字符串,相关方法如下。
+
+	loadHTMLString:baseURL: 设定主页文件的基本路径，通过一个HTML字符串加载主页数据。
+	loadData:MIMEType:characterEncodingName:baseURL: 指定MIME 类型、编码集和NSData 对象加载一个主页数据，并设定主页文件的基本路径.
+	使用这2个方法时，我们需要注意字符集问题，而采用什么样的字符集取决于HTML文件。
+	加载网络资源时，我们一般采用的是异步加载方式，使用的方法是 WKWebView 的 loadRequest:方法，该方法的参数是NSRLRequest 对象，该对象在构建的时候必须严格遵守某种协议格式，例如：
+	
+	http://www.sina.com.cn   HTTP协议
+	file://localhost/Users/tonyguan/index.html 文件传输协议
+	其中 http:// 和 file:// 是协议名，不能省略。上网的时候我们常常省略 http:// ，一般浏览器仍然可以解析输入的URL ,但是在 WKWebView 的 loadRequest: 方法中，该字符一定不能省略！
+	由于采用异步请求加载网络资源，所以还要实现相应的 WKNavigationDelegate 委托协议。请求加载网络资源的不同阶段会触发 WKNavationDelegate 委托对象的不同方法。
+	
+案例 web视图-WKWebView类-加载html页面.txt
+案例: https://www.cnblogs.com/bruce-gou/p/10518394.html

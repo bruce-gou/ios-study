@@ -1,0 +1,54 @@
+
+  选择器
+	日期时间选择器 UIDatePicker
+	普通选择器	    UIPickerView
+	 UIPickerView 的委托协议是 UIPickerViewDelegate，数据源是 UIPickerViewDataSource。我们需要在视图控制器中声明实现 UIPiekerViewDelegate 和 UIPickerViewDataSource 协议。
+
+
+ 
+  集合视图
+	UICollectionView 继承自UIScrollView.
+	    集合视图有2个协议，与选择器类似: UICollectionViewDelegate 委托协议 和 UICollectionViewDataSource 数据源协议，
+	    UICollectionViewCell是单元格类，它的布局是由 UICollectionViewLayout 类定义的，它是一个抽象类。
+	    UICollectionViewFlowLayout 类是 UICollectionViewLayout 类的子类， 对于复杂的布局，可以自定义 UICollectionViewLayout类。
+	    UICollectionView 对应的控制器是 UICollectionViewController 类。
+	
+
+	集合视图数据源协议与委托协议是 UICollectionViewDelegate，数据源协议是 UICollectionViewDataSource。
+	UICollectionViewDataSource方法有如下4个：
+	    collectionView:numberOfItemsInSection: 。 提供某个节中的列数，swift 中表示为 collectionView(_:numberOfItemsInSection)。
+
+	    numberOfSectionsInCollectionView: 。提供视图中节的个数，swift 中表示为 numberOfSection(in:)。
+
+	    collectionView:cellForItemAtIndexPath: 。为某个单元格提供显示数据，swift 中表示为 collectionView(_:cellForItemAt:)
+
+	    collectionView:viewForSupplementaryElementOfKind:atIndexPath: 。为补充视图提供显示数据，swift 中表示为 collectionView(_: viewForSupplementaryElementOfKind:at:)
+	
+
+	UICollectionViewDelegate 中的方法很多，其中较为重要的方法如下：
+	    collectionView:didSelectItemAtIndexPath:。选择单元格之后出发，swift 中表示为 collectionView(_:didSelectItemAt:)
+	
+	    collectionView:didDeselectItemAtIndexPath:。取消选择单元格之后出发，swift 中表示为 collectionView(_:didDeselectItemAt:)
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	    

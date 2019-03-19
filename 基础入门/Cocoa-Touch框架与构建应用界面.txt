@@ -1,0 +1,85 @@
+  macOS应用的界面主要使用Cocoa 框架开发，Cocoa 是一种为应用程序提供丰富樱花体验的框架，其核心是： Foundation 和 Application Kit(AppKit) 框架，IOS 应用界面主要使用 Cocoa Touch 框架开发，核心是： Foundation 和 UIKit 框架，Cocoa Touch框架有一套自己的mvc模式，其中视图和控制器是UIKit 中的 UIView(及其子类) 和 UIViewController(及其子类)。
+
+
+    视图控制器种类：
+	UIViewController : 用于自定义视图控制器的导航，例如对于两个界面的跳转，可以用一个UIViewController来控制另外两个UIViewController。
+
+	UINavigationController: 导航控制器，它 UIViewController结合使用，能够构建树形导航模式。
+	
+	UITabBarController： 标签栏控制器，用于构建树形表情导航模式。
+
+	UIPageViewController: 呈现电子书导航风格的控制器。
+
+	UISplitViewController: 可以把屏幕分割成几块的视图控制器，主要为iPad 屏幕设计。
+	
+	UIPopoverController: 呈现“气泡”风格的视图控制器，主要为ipad屏幕设计.
+
+   	视图控制器随着IOS 版本的变化而变化，例如 UISplitViewController 和  UIPopoverController是随着iPad 的出现而推出的；UIPageViewController则用于构建电子书和电子杂志应用。
+
+
+
+    视图生命周期：
+	视图创建：调用 viewDidLoad 方法 (运行时调用一次)
+	视图可见前：调用 viewWillAppear 方法
+	视图可见后：调用 viewDidAppear 方法
+	视图不可见前：调用 viewWillDisappear 方法
+	视图不可见后： 调用 viewDidDisappear 方法
+
+
+
+    视图分类：
+	1.控件。继承自UIControl 类，能够响应用户高级事件。
+	2.窗口。它是UIWindow对象。 一个ios 应用只有一个UIWindow 对象，它是所有子视图的 “根”容器.
+	3.容器视图。 它包括了 UIScrollView 、 UIToolbar 及它们的子类。 UIScrollView 的子类有 UITextView、
+	  UITableView 和 UICollectionView, 在内容超出屏幕时， 它们可以提供水平或垂直滚动条。 UIToolbar 是非常
+	  特殊的容器，它能够包含其他控件，一般置于屏幕底部，特殊情况下也可以置于屏幕顶部。
+	4.显示视图。 用于显示信息，包括 UIImageView、UILabel、UIProgressView 和 UIActivityIndicatorView 等。
+	5.文本和web视图。 提供了能够显示多行文本的视图，包括UITextView 和 UIWebView， 其中UITextView 也属于容器视图，UIWebView是能够加载和显示HTML代码的视图
+	6.导航视图。 为用户提供从一个屏幕到另外一个屏幕的导航（或跳转）视图，它包括UITabbar和UINavigationBar.
+	7.警告和操作表。 用于给用户提供一种反馈或者与用户进行交互。警告框是以动画形式弹出来的视图；
+	  而操作表是给用户提供可选操作的视图，在iPhone中它会从屏幕底部滑出，在iPhone 中则会出现在屏幕中央。
+
+	UILabel  文本
+	UIButton 按钮
+	TextField、TextView 可编辑文本
+
+
+	输入框边框样式有： UITextBorderStyle 的枚举成员
+		none: 默认虚线样式
+		line: 直线样式
+		bezel: 带阴影样式
+		roundedRect: 圆角样式
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

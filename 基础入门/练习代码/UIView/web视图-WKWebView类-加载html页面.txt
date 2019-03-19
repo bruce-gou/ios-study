@@ -1,0 +1,125 @@
+import UIKit
+import WebKit
+
+class RootViewController: UIViewController, WKNavigationDelegate {
+    var webView: WKWebView!
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // 创建视图
+        let screen = UIScreen.main.bounds
+        // 按钮栏
+        let buttonBarWidth:CGFloat = 316
+        let buttonBar = UIView(frame: CGRect(x: (screen.size.width - buttonBarWidth)/2, y: 20, width:buttonBarWidth, height: 70))
+        self.view.addSubview(buttonBar)
+        
+        let width = buttonBar.frame.size.width / 2 - 10
+    //添加按钮
+        let buttonHTML = UIButton(type: UIButtonType.system)
+        buttonHTML.setTitle("通过路径加载", for: UIControlState())
+        buttonHTML.frame = CGRect(x:0, y:0, width: width, height: 30)
+        //添加事件
+        buttonHTML.addTarget(self, action: #selector(test(_:)), for: .touchUpInside)
+        buttonBar.addSubview(buttonHTML)
+    
+    //添加 loadHTMLString 按钮
+        let loadHTMLString = UIButton(type: UIButtonType.system)
+        loadHTMLString.setTitle("loadHTMLString", for: UIControlState())
+        loadHTMLString.frame = CGRect(x: width + 10, y:0, width: width, height: 30)
+        //添加事件
+        loadHTMLString.addTarget(self, action: #selector(loadHTMLString(_:)), for: .touchUpInside)
+        buttonBar.addSubview(loadHTMLString)
+        
+    //添加loadData按钮
+        let loadData = UIButton(type: UIButtonType.system)
+        loadData.setTitle("loadData", for: UIControlState())
+        loadData.frame = CGRect(x:0, y: 40, width: width, height: 30)
+        //添加事件
+        loadData.addTarget(self, action: #selector(loadData(_:)), for: .touchUpInside)
+        buttonBar.addSubview(loadData)
+        
+    //添加loadRequest按钮--- 加载网络地址
+        let loadRequest = UIButton(type: UIButtonType.system)
+        loadRequest.setTitle("loadRequest", for: UIControlState())
+        loadRequest.frame = CGRect(x: width + 10, y: 40, width: width, height: 30)
+        //添加事件
+        loadRequest.addTarget(self, action: #selector(loadRequest(_:)), for: .touchUpInside)
+        buttonBar.addSubview(loadRequest)
+        
+    //添加WKWebView
+        self.webView = WKWebView(frame: CGRect(x:0, y: 100, width: screen.size.width, height: screen.size.height - 100 ))
+        self.view.addSubview(webView)
+    }
+    // 加载本地html 点击事件
+    @objc func buttonHTML(_ sender: AnyObject){
+        // 方法一 加载路径
+        let htmlPath = Bundle.main.path(forResource: "index", ofType: "html")
+        if let htmlPath =  htmlPath {
+            let url = URL.init(fileURLWithPath: htmlPath) // 把字符串 转成 URL 类型
+            let request = URLRequest(url: url)
+            self.webView.load(request)
+            self.webView.navigationDelegate = self
+        }
+        // 方法二 加载路径
+        //        let htmlPath = Bundle.main.url(forResource: "index", withExtension: "html")
+        //        if let htmlPath = htmlPath{
+        //            let request = URLRequest(url: htmlPath)
+        //            self.webView.load(request)
+        //            self.webView.navigationDelegate = self
+        //        }
+    }
+    // loadHTMLString
+    @objc func loadHTMLString(_ sender: AnyObject){
+        // 方法一 直接加载 html 字符串
+        //        let bundleUrl = NSURL.fileURL(withPath: Bundle.main.bundlePath)
+        //        self.webView.loadHTMLString("<html><head><meta charset='utf-8'/><title>测试</title></head><body><h1>测试标题</h1></body></html>", baseURL: bundleUrl)
+        
+        // 方法二 把本地文件转成字符串，进行加载
+        let htmlPath = Bundle.main.path(forResource: "index2", ofType: "html")
+        let bundleUrl = NSURL.fileURL(withPath: Bundle.main.bundlePath)
+        do{
+            let html = try NSString(contentsOfFile: htmlPath!, encoding: String.Encoding.utf8.rawValue)
+            self.webView.loadHTMLString(html as String, baseURL: bundleUrl)
+        }catch let err as NSError{
+            err.description
+        }
+    }
+    // loadData 方式加载 -- > loadData 已经转换成--> load
+    @objc func loadData(_ sender: AnyObject){
+        let htmlPath = Bundle.main.path(forResource: "index3", ofType: "html")
+        let bundleUrl = NSURL.fileURL(withPath: Bundle.main.bundlePath)
+        
+        let htmlData = NSData(contentsOfFile: htmlPath!)
+        // NSData 要先转换成 Data 类型
+        self.webView.load(htmlData! as Data, mimeType: "text/html", characterEncodingName: "utf-8", baseURL: bundleUrl)
+        
+    }
+    // loadRequest 加载网络路径 ---> loadRequest 已经改为 load , NSURL --> URL,NSURLRequest -->  URLRequest
+    @objc func loadRequest(_ sender: AnyObject){
+        let url = URL(string: "https://baidu.com")
+        let request = URLRequest(url: url!)
+        self.webView.load(request)
+        self.webView.navigationDelegate = self
+    }
+    // 蓝色文件夹解决方案
+    @objc func test(_ sender: AnyObject){
+        let bundlePath = Bundle.main.bundlePath
+        let path = "file://\(bundlePath)/assets/index.html"
+        let url = URL(string: path);
+        let request = URLRequest(url: url!)
+        self.webView.load(request)
+    }
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        print("开始加载")
+    }
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        print("内容开始返回")
+    }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        print("加载完成")
+    }
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print("加载失败 error:" + error.localizedDescription)
+    }
+}

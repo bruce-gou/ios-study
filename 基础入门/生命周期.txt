@@ -1,0 +1,68 @@
+	viewController 类继承自 UIViewController 类，它是试图控制器类，在工程中扮演着根视图和用户事件控制类的角色。
+
+	AppDelegate 类是应用程序委托对象，这个类继承的一些列方法在应用生命周期的不同阶段会被回调。
+
+	
+	应用生命周期：
+		Not Running(非运行状态) 应用没有运行或被系统终止。
+		Inactive(前台非活动状态) 应用正在进入前台状态，但是还不能接受事件处理。
+		Active(前台活动状态) 应用进入前台状态，能接受事件处理。
+		Backgrou(后台状态) 应用进入后台后，依然能够执行代码，如果有可执行代码，就会执行代码，如果没有可执行代码或者将可执行的代码执行完毕，应用就会马上进入挂起状态。
+		Suspended(挂起状态) 被挂起的应用进入一种 “冷冻” 状态，不能执行代码。如果内存不够，应用会被终止。
+	 
+
+
+	生命周期方法：
+
+		application:willFinishLaunchingWithOptions: - 这个方法是你在启动时的第一次机会来执行代码
+
+		application:didFinishLaunchingWithOptions: - 这个方法允许你在显示app给用户之前执行最后的初始化操作
+
+		applicationDidBecomeActive: - app已经切换到active状态后需要执行的操作
+
+		applicationWillResignActive: - app将要从前台切换到后台时需要执行的操作
+
+		applicationDidEnterBackground: - app已经进入后台后需要执行的操作
+
+		applicationWillEnterForeground: - app将要从后台切换到前台需要执行的操作，但app还不是active状态
+
+		applicationWillTerminate: - app将要结束时需要执行的操作
+
+
+
+	点击home 键------退出应用
+		
+	    应用处于运行状态时，点击Home键应用会退出。该场景的状态跃迁过程可以分成2种情况： 
+		1.可以在后台运行或者挂起
+		2.不可以在后台运行或者关起
+	    根据工程属性文件（Info.plist）中的相关属性 Application does not run in background 可以控制这2种状态，设置成 yes 就是不再后台运行程序
+	    文本编辑器 打开的话 则设置 （UIApplicationExitsOnSuspend = YES）
+
+
+	如果程序允许在后台运行或者挂起，当系统内存不足时，该应用就会从内存中清除而终止运行
+
+
+	
+
+	api 整体分为4层：
+	    Cocoa Touch 层、Media 层、 Core Services 层、 Core OS 层。
+
+		Cocoa Touch 层：该层提供了构建IOS 应用的一些基本的系统服务（如多任务、触摸输入和推送通知等）和关键框架，例如 UIKit、WatchKit、GameKit 和 MapKit 等。
+
+		Media 层： 提供了图形、音频、视频和 AirPlay 技术，例如： Core Audio、 Core Graphics、 Core Text、Core Video等。
+
+		Core Services 层： 提供一些基本的服务，一般不提供界面。例如：CloudKit、 HealthKit、HomeKit、应用内购买、SQLite 数据库 和 XML 支持等技术。
+
+		Core OS 层：该层提供了一些与硬件和网络相关的低级服务，例如应用程序沙箱机制、代码数字签名、安全相关的服务、访问低能耗蓝牙设备和访问重力加速计。
+
+
+
+
+
+
+
+
+
+
+
+	

@@ -1,0 +1,116 @@
+import UIKit
+
+class RootViewController: UIViewController{
+    var leftSwitch: UISwitch!
+    var rightSwitch: UISwitch!
+    var sliderValue: UILabel!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // 创建视图
+        let screen = UIScreen.main.bounds
+        
+//开关控件
+        let switchScreenSpace:CGFloat = 39
+        //添加leftSwitch控件
+        self.leftSwitch = UISwitch()
+        var frame = self.leftSwitch.frame
+        frame.origin = CGPoint(x: switchScreenSpace, y: 98)
+        //重新设置控件的位置
+        self.leftSwitch.frame = frame
+        //设置控件状态
+        self.leftSwitch.isOn = true
+        //添加事件
+        self.leftSwitch.addTarget(self, action: #selector(switchChange(_:)), for: .valueChanged)
+        self.view.addSubview(self.leftSwitch)
+        
+        
+        
+        //添加 rightSwitch 控件
+        self.rightSwitch = UISwitch()
+        frame = self.rightSwitch.frame
+        //组件位置
+        frame.origin = CGPoint(x: screen.size.width - (frame.size.width + switchScreenSpace), y: 98)
+        self.rightSwitch.addTarget(self, action: #selector(switchChange(_:)), for: .valueChanged)
+        self.rightSwitch.frame = frame
+        //组件状态
+        self.rightSwitch.isOn = true
+        self.view.addSubview(self.rightSwitch)
+        
+        
+ // 分段控制器
+        let segments = ["Right", "Left"]
+        let segmentedControl = UISegmentedControl(items: segments)
+        
+        let scWidth:CGFloat = 220
+        let scHeight:CGFloat = 29 //29默认高度
+        let scTopView:CGFloat = 186
+        // 设置 宽高，x、y 的坐标位置
+        frame = CGRect(x: (screen.size.width - scWidth)/2, y: scTopView, width: scWidth, height: scHeight)
+        //重新设定控件位置
+        segmentedControl.frame = frame
+        segmentedControl.addTarget(self, action: #selector(touchSegments(_:)), for: .valueChanged)
+        self.view.addSubview(segmentedControl)
+        
+
+        
+//滑块控件
+        let sliderWidth:CGFloat = 300
+        let sliderHeight:CGFloat = 31 //31默认高度
+        let sliderTopView:CGFloat = 236
+        let slider = UISlider()
+        frame = CGRect(x: (screen.size.width - sliderWidth)/2, y: sliderTopView, width: sliderWidth, height:sliderHeight)
+        //重新设定位置
+        slider.frame = frame
+        // 设定 控件属性
+        slider.minimumValue = 0.0
+        slider.maximumValue = 100.0
+        slider.value = 50.00
+        // 添加事件处理方法
+        slider.addTarget(self, action: #selector(sliderChange(_:)), for: .valueChanged)
+        self.view.addSubview(slider)
+        
+        // 添加 sliderValue --> UILabel 组件 显示滑块组件的值
+        self.sliderValue = UILabel()
+        frame = CGRect(x: (screen.size.width - 100)/2, y: 276, width: 100, height: 20)
+        self.sliderValue.frame = frame
+        self.sliderValue.text = String(Int(slider.value))
+        self.sliderValue.textAlignment = NSTextAlignment.center
+        self.sliderValue.textColor = UIColor.red
+        self.view.addSubview(self.sliderValue)
+        
+    }
+    // 使2个开关值保持一致
+    @objc func switchChange(_ sender: AnyObject){
+        let widthSwitch = sender as! UISwitch // as! 强制转换， as? 也是可以的，使用需要解包
+        let setting = widthSwitch.isOn
+        self.leftSwitch.setOn(setting, animated: true)
+        self.rightSwitch.setOn(setting, animated: true)
+    }
+    // 分段控制器
+    @objc func touchSegments(_ sender: AnyObject){
+        let segmented = sender as! UISegmentedControl
+        if segmented.selectedSegmentIndex == 0{
+            self.rightSwitch.isHidden = false
+            self.leftSwitch.isHidden = true
+        }else if segmented.selectedSegmentIndex == 1{
+            self.rightSwitch.isHidden = true
+            self.leftSwitch.isHidden = false
+        }
+    }
+    // 滑块控件
+    @objc func sliderChange(_ sender: AnyObject){
+        let slidered = sender as! UISlider
+        self.sliderValue.text = String(Int(slidered.value))
+    }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}

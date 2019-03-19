@@ -1,0 +1,105 @@
+import UIKit
+
+class RootViewController: UIViewController {
+    var activityIndicatorView: UIActivityIndicatorView!
+    var buttonUpload: UIButton!
+    
+    var progressView: UIProgressView!
+    var timer: Timer!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // 创建视图
+        let screen = UIScreen.main.bounds
+        // 设置 根视图背景色
+        self.view.backgroundColor = UIColor.black
+        
+    // 活动指示器
+        self.activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        // 或者 UIActivityIndicatorViewStyle.whiteLarge
+        
+        var frame = self.activityIndicatorView.frame
+        frame.origin = CGPoint(x: (screen.size.width - frame.size.width) / 2, y: 85)
+        //重新设置位置
+        self.activityIndicatorView.frame = frame
+        self.activityIndicatorView.hidesWhenStopped = false
+        self.view.addSubview(activityIndicatorView)
+    
+        // upload按钮
+        self.buttonUpload = UIButton(type: UIButtonType.system)
+        self.buttonUpload.setTitle("继续", for: UIControlState())
+        self.buttonUpload.backgroundColor = UIColor.white
+        
+        let buttonUploadwidth:CGFloat = 50
+        let buttonUploadheight:CGFloat = 30
+        let buttonUploadTopView:CGFloat = 190
+    
+        self.buttonUpload.frame = CGRect(x: (screen.size.width - buttonUploadwidth) / 2, y: buttonUploadTopView, width: buttonUploadwidth, height: buttonUploadheight)
+        
+        //指定事件
+        self.buttonUpload.addTarget(self, action: #selector(activityStartToMove(_:)), for: UIControlEvents.touchUpInside)
+        self.view.addSubview(self.buttonUpload)
+        
+    // 进度条
+        let progressViewWidth:CGFloat = 200
+        let progressViewHeight:CGFloat = 2
+        let progressViewTopView:CGFloat = 283
+        
+        self.progressView = UIProgressView(frame: CGRect(x:(screen.size.width - progressViewWidth)/2, y:progressViewTopView, width: progressViewWidth, height:progressViewHeight))
+        self.view.addSubview(self.progressView)
+        
+        // 下载按钮
+        let buttonDownload = UIButton(type: UIButtonType.system)
+        buttonDownload.setTitle("下载", for: UIControlState())
+        
+        let buttonDownloadWidth:CGFloat = 69
+        let buttonmDownloadHeight:CGFloat = 30
+        let buttonDownloadTopView:CGFloat = 384
+        
+        buttonDownload.frame = CGRect(x:(screen.size.width - buttonDownloadWidth)/2, y:buttonDownloadTopView, width: buttonDownloadWidth, height: buttonmDownloadHeight)
+        
+        //指定事件
+        buttonDownload.addTarget(self, action: #selector(downStartToMove(_:)), for: UIControlEvents.touchUpInside)
+        self.view.addSubview(buttonDownload)
+        
+    }
+    // 控制 活动指示器 暂停和旋转的方法
+    @objc func activityStartToMove(_ sender: AnyObject){
+        if self.activityIndicatorView.isAnimating {
+            self.activityIndicatorView.stopAnimating()
+            self.buttonUpload.setTitle("继续", for: UIControlState())
+        }else{
+            self.activityIndicatorView.startAnimating()
+            self.buttonUpload.setTitle("暂停", for: UIControlState())
+        }
+    }
+    // 控制进度条的方法
+    @objc func downStartToMove(_ sender: AnyObject){
+        if self.progressView.progress == 1.0 {// 等于1.0表示已经完成，可以重新开始，并且进度重置为0
+            self.progressView.progress = 0.0
+            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(download), userInfo: nil, repeats: true)
+        }else if self.progressView.progress == 0.0 { // 等于0 表示可以开始
+            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(download), userInfo: nil, repeats: true)
+        }else if self.progressView.progress > 0 && self.timer != nil { //暂停
+            self.timer.invalidate()
+            self.timer = nil
+        }else{ // 暂停后继续
+            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(download), userInfo: nil, repeats: true)
+        }
+    }
+    
+    @objc func download(){
+        self.progressView.progress = self.progressView.progress + 0.1
+        if self.progressView.progress == 1.0{
+            self.timer.invalidate() //停止
+            
+            //提示框
+            let alertController: UIAlertController = UIAlertController(title: "下载完成!", message:"", preferredStyle: UIAlertControllerStyle.alert)
+            
+            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+            alertController.addAction(okAction)
+            //显示 提示框
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+}

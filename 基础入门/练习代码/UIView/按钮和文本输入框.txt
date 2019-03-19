@@ -1,0 +1,166 @@
+import UIKit
+
+class RootViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
+    var label:UILabel!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // 创建视图
+        let screen = UIScreen.main.bounds
+        
+        let labelWidth:CGFloat = 110
+        let labelHeight:CGFloat = 20
+        let labelTopView:CGFloat = 10
+        // frame 该视图在父视图中的位置大小(相对于父级)
+        let frame = CGRect(x:(screen.size.width - labelWidth) / 2, y: labelTopView, width: labelWidth, height: labelHeight)
+        self.label = UILabel(frame:frame)
+        self.label.text = "Hello,world!!!!"
+        self.label.textAlignment = NSTextAlignment.center
+        self.view.addSubview(self.label)
+        
+        
+        //创建按钮
+        let buttonWidth:CGFloat = 100
+        let buttonHeight:CGFloat = 20
+        let buttonTopView:CGFloat = 40
+        
+        let buttonframe = CGRect(x:(screen.size.width - buttonWidth) / 2, y: buttonTopView, width: buttonWidth, height: buttonHeight)
+        let button = UIButton(type: UIButtonType.system)
+        button.setTitle("点击按钮", for: UIControlState.normal)
+        button.frame = buttonframe
+        button.backgroundColor = UIColor.red
+        //添加点击事件
+        button.addTarget(self, action: #selector(onClick), for: UIControlEvents.touchUpInside)
+        //把创建的视图添加到父级视图中
+        self.view.addSubview(button)
+        
+        //创建输入框 ---单行输入框
+        let inputWidth:CGFloat = 150
+        let inputHeight:CGFloat = 20
+        let inputTopView:CGFloat = 70
+        let inputframe = CGRect(x:(screen.size.width - inputWidth) / 2, y: inputTopView, width: inputWidth, height: inputHeight)
+        
+        let textField = UITextField(frame: inputframe)
+        textField.backgroundColor = UIColor.cyan
+        textField.textColor = UIColor.white
+        textField.borderStyle = UITextBorderStyle.roundedRect
+        textField.delegate  = self
+        textField.text = "输入框1"
+        // return 返回键类型
+        textField.returnKeyType = UIReturnKeyType.next
+        // 键盘类型
+        textField.keyboardType = UIKeyboardType.numbersAndPunctuation
+        self.view.addSubview(textField)
+        
+        
+        //输入框2 ---- 多行输入框
+        let input1Width:CGFloat = 150
+        let input1Height:CGFloat = 20
+        let input1TopView:CGFloat = 100
+        let input1frame = CGRect(x:(screen.size.width - input1Width) / 2, y: input1TopView, width: input1Width, height: input1Height)
+        
+        let textView = UITextView(frame: input1frame)
+        textView.backgroundColor = UIColor.gray
+        textView.textColor = UIColor.white
+        textView.text = "输入框2"
+        // 返回键类型
+        textView.returnKeyType = UIReturnKeyType.go
+        // 键盘类型
+        textView.keyboardType = UIKeyboardType.URL
+        textView.delegate  = self
+        self.view.addSubview(textView)
+      
+    }
+    //视图出现
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //注册键盘出现通知
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow(_:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        //注册键盘隐藏通知
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: NSNotification.Name.UIKeyboardDidHide, object: nil)
+    }
+    //视图将要消失，注销监听方法
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIKeyboardDidHide, object: nil)
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    //添加“@objc”将此实例方法公开给objective-c
+    @objc func onClick(){
+        let labelTxt = "hello"
+        let labelTxt1 = "Hello,world!!!!"
+        let str = self.label.text
+        if let info = str{
+            if info.contains("!!!!") {
+                self.label.text = labelTxt
+            }else{
+                self.label.text = labelTxt1
+            }
+        }
+        print("按钮点击！")
+    }
+    @objc func keyboardDidShow(_ notification: Notification){
+        print("键盘打开了")
+    }
+    @objc func keyboardDidHide(_ notification: Notification){
+         print("键盘关闭了")
+    }
+// 单行文本输入框  UITextFieldDelegate 的委托方法
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        print("textField获得焦点!, 点击return键关闭了键盘")
+        textField.resignFirstResponder()
+        return true
+    }
+    //监听输入框文本变化
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool{
+        print(string)
+        return true
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool{
+        print("单行文本->询问是否可以编辑")
+        return true //false 不可编辑
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField){
+        //开始编辑时候出发
+        print("单行文本->开始编辑")
+    }
+    func textFieldDidEndEditing(_ textField: UITextField){
+        print("单行文本->结束编辑")
+    }
+//多行文本输入框 UITextViewDelegate 协议的委托方法
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool{
+        print("多行文本->询问是否可以编辑")
+        return true //false 不可编辑
+    }
+    func textViewDidBeginEditing(_ textView: UITextView){
+        //开始编辑时候出发
+        print("多行文本->开始编辑")
+    }
+    func textViewDidEndEditing(_ textView: UITextView){
+        print("多行文本->结束编辑")
+    }
+    // 实现 UITextViewDelegate 协议的委托方法中没有直接控制 return 键的方法，所以用文本监听，判断是否输入的是回车键如果是则可以利用方法控制键盘关闭 --->//监听输入框文本变化
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool{
+        print(text)
+        if text == "\n" {
+            textView.resignFirstResponder()
+            print("textView获得焦点!, 点击return 键,关闭了键盘")
+            return false
+        }
+        return true
+    }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
