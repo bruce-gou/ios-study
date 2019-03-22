@@ -1,0 +1,77 @@
+
+    视图控制器的种类
+	UIViewController。 用于自定义视图控制器的导航。例如，对于2个界面的跳转，可以用一个 UIViewController来控制另外2个UIViewController
+	UINavigationController。导航控制器，它与UITableViewController 结合使用，能够构建树形结构导航模式。
+	UITabBarController。标签控制栏，用于构建树标签导航模式。
+	UIPageViewController。呈现电子书导航风格的控制器。
+	UISplitViewController。可以把屏幕分割成几块的视图控制器，主要为iPad屏幕设计。
+	UIPopoverController。呈现“气泡”风格视图的控制器，主要为iPad屏幕设计。
+
+
+
+    导航模式
+	平铺导航模式。 内容没有层次关系，展示的内容都放置在一个主屏幕上，采用分屏或者分页控制器进行导航，可以左右或者上下滑动屏幕查看内容。
+	标签导航模式。内容被分成几个功能模块，每个功能模块之间没有什么关系，通过标签管理各个功能模块，点击标签可以切换功能模块。
+	树形结构导航模式。 内容是有层次的，从上到下细分或者具有分类包含等关系
+
+
+
+    模态视图
+	在导航过程中，有时候需要放弃主要任务转而做其他次要任务，然后再放回到主要任务，这个“次要任务”就是在“模态视图”中完成的。
+	例如任务是：登录后进入主界面，但是用户没有注册，就要先去注册，注册是“次要任务”，当用户注册完成后，会关闭注册视图，回到登录节目进行主要任务。
+	
+	默认情况下，模态视图是从屏幕下方滑出来的，完成的时候需要关闭这个模态视图，如果不关闭，就不能做别的事情，这就是“模态”的含义，它具有必须响应处理的意思。因此，模态视图中一定会有“关闭”或者“完成按钮”，其根本原因是IOS只有一个Home键， Android 或者 Window Phone 则不会遇到这个问题。
+	
+
+	负责控制模态视图的控制器称为模态视图控制器。模态视图控制器并非一个专门的类，它可以是上面提到的控制器的子类，负责主要任务视图的控制器称为主视图控制器，它与模态视图控制器之间是“父子”关系。由于 UIViewController 类中提供如下两个方法，所以任何视图控制器都可以呈现和关闭模态视图。
+
+	presentViewController:animated:completion 呈现模态视图
+	dismissViewControllerAnimated:completion 关闭模态视图
+
+	在呈现视图时，我们有2个选择。
+	通过代码使用UIViewController 的 presentViewController:animated:completion 方法实现。
+	通过 在故事版的 “过渡”(Segue)中实现，这个方式不需要编写代码。
+
+
+
+
+    平铺导航. UIScrollView 和 UIPageControl --- 分页控件 几个点的控件--不要也是可以实现屏幕滚动
+    电子书导航 UIPageViewController 
+	需要的协议 UIPageViewControllerDataSource协议、UIPageViewControllerDelegate 协议 和 UIPageViewController 类，UIPageViewController没有对应的视图类.
+	
+	双面显示。 指在页面翻起时偶数页面会在背面显示。
+	书脊位置。书脊位置也是很重要的属性，但是它是只读的
+	    min: 定义了书脊位置在书的最左边 或者最上边
+	    max: 定义了书脊位置在书的最右边或最下面
+	    mid: 定义了书脊位置在书的中间
+
+
+    标签导航
+	标签导航是非常重要的导航模式。使用标签栏时，有一定的指导原则：标签栏位于屏幕下方，占用49点的屏幕空间，有时可以隐藏起来，为了点击方便，标签栏中的标签不能超过5个，如果超过5个，则最后一个（第5个）显示为更多
+
+
+
+    树形结构导航
+	pushViewController:animated: 进入下一级视图
+	popviewControllerAnimated: 回到上一级
+	popToRootViewControllerAnimated: 回到根视图
+	popTopViewController: animated: 回到指定视图
+
+
+
+   组合使用导航模式
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

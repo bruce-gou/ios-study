@@ -1,0 +1,71 @@
+import UIKit
+class RootViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+   //全部数据
+    var listTeams: NSArray  = [["阿修罗","阿Q"],["BBQ","BDD"],["厂长"],["DNF"],["EDG"],["富士康","富土康"],["公园","诡异"],["盒饭"],["IG"],["jeck"],["肯德基"],["李四","历史"],["妹大爷","美眉"],["牛逼"],["张三","张无忌"]]
+    
+    var key: NSArray = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","Z"]
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // 创建视图
+        let screen = UIScreen.main.bounds
+        // 设置 根视图背景色
+        self.view.backgroundColor = UIColor.white
+        
+        //self.view.bounds
+        var frame = CGRect(x:0,y:20, width: screen.size.width, height: screen.size.height - 20)
+        // plain: 普通视图。      grouped: 分组视图 ---组的间距比较大
+        let tempTableView = UITableView (frame: frame, style: UITableViewStyle.plain)
+        tempTableView.delegate = self
+        tempTableView.dataSource = self
+        tempTableView.tableFooterView = UIView.init()
+        self.view.addSubview(tempTableView);
+    }
+//-------- 表视图 代理 -------
+    // 分节
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return self.key.count
+    }
+    //添加节头
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.key[section] as? String
+    }
+    //添加索引
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return self.key as? [String]
+    }
+    //cell 个数，多少行，-----每一节有多少行
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let item = self.listTeams[section] as! NSArray
+        return item.count
+    }
+    // 每个cell 展示 的数据处理
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellid = "testCellID"
+        // 实例化表视图对象
+        var cell = tableView.dequeueReusableCell(withIdentifier: cellid)
+        if cell == nil{
+            //获得可重用单元格对象
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellid)
+        }
+        // 填充 文本内容和 图标内容，可以用数组方式 ，根据 indexPath.row 的行数取得响应数组下标的内容进行填充
+        //获取每一节的内容
+        let item = self.listTeams[indexPath.section] as! NSArray
+        //根据每一节内容的下标，填充每一行的内容
+        cell?.textLabel?.text = item[indexPath.row] as? String  // 主标题
+        cell?.detailTextLabel?.text = "这个是副标题" //副标题
+        cell?.imageView?.image = UIImage(named: "3") //图标
+
+        // 单元格 样式设置， 这个是 扩展指示图标，触摸该图标将切换到下一级表视图
+        cell?.accessoryType = .disclosureIndicator
+        return cell!
+    }
+    // 设置cell 高度
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 66.0
+    }
+    //选中cell 执行此方法，做要做的操作
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = self.listTeams[indexPath.section] as! NSArray
+        print(item[indexPath.row])
+    }
+}

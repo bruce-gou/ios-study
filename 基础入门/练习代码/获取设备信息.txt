@@ -1,0 +1,47 @@
+import UIKit
+class RootViewController: UIViewController{
+   //全部数据
+    var txtField: UITextField!
+    var listIteams: NSMutableArray!
+    var tableView: UITableView!
+    var refreshControl: UIRefreshControl!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // 创建视图
+        let screen = UIScreen.main.bounds
+        //设置导航栏
+        self.navigationItem.title = "下拉刷新"
+        
+        let iOSDeviceScreenSize: CGSize = screen.size
+        var str: String!
+        // 判断是否是 iPhone 设备
+        if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone{
+            // 竖屏情况
+            if iOSDeviceScreenSize.height > iOSDeviceScreenSize.width {
+                if iOSDeviceScreenSize.height == 568 {
+                    str = "iPhone 5/5s/5c/se设备"
+                }else if iOSDeviceScreenSize.height == 667{
+                    str = "iPhone 6/6s/7设备"
+                }else if iOSDeviceScreenSize.height == 736{
+                    str = "iPhone Plus设备"
+                }else{
+                    str = "等其他设备"
+                }
+            }
+            //横屏情况
+            if iOSDeviceScreenSize.width > iOSDeviceScreenSize.height {
+                if iOSDeviceScreenSize.width == 568 {
+                    str = "iPhone 5/5s/5c/se设备"
+                }else if iOSDeviceScreenSize.width == 667 {
+                    str = "iPhone 6/6s/7设备"
+                }else if iOSDeviceScreenSize.width == 736 {
+                    str = "iPhone Plus设备"
+                }else{
+                    str = "等其他设备"
+                }
+            }
+            print(str)
+        }
+        
+    }
+}
